@@ -15,6 +15,7 @@ downloads/
 eggs/
 .eggs/
 lib/
+bin/
 lib64/
 parts/
 sdist/
@@ -102,6 +103,7 @@ celerybeat.pid
 *.sage.py
 
 # Environments
+.vscode/
 .env
 .venv
 env/
