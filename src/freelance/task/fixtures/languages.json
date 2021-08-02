@@ -1,0 +1,63 @@
+[
+    {
+        "model": "task.Language",
+        "fields": {
+            "name" : "Python"
+        }
+    },
+    {
+        "model": "task.Language",
+        "fields": {
+            "name" : "Java"
+        }
+    },
+    {
+        "model": "task.Language",
+        "fields": {
+            "name" : "C"
+        }
+    },
+    {
+        "model": "task.Language",
+        "fields": {
+            "name" : "C++"
+        }
+    },
+    {
+        "model": "task.Language",
+        "fields": {
+            "name" : "Rust"
+        }
+    },
+    {
+        "model": "task.Language",
+        "fields": {
+            "name" : "Haskell"
+        }
+    },
+    {
+        "model": "task.Language",
+        "fields": {
+            "name" : "Javascript"
+        }
+    },
+    {
+        "model": "task.Language",
+        "fields": {
+            "name" : "Go"
+        }
+    },
+    {
+        "model": "task.Language",
+        "fields": {
+            "name" : "Matlab"
+        }
+    },
+    {
+        "model": "task.Language",
+        "fields": {
+            "name" : "Assembly"
+        }
+    }
+
+]

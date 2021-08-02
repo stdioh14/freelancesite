@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <p>
+            {{form.title.label}}
+            {{form.title}}
+        </p>
+        <p>
+            {{form.description.label}}
+            {{form.description}}
+        </p>
+        <p>
+            {{form.language.label}}
+            {{form.language}}
+        </p>
+        
+        <input type="submit" name="Create Problem">
+    </form>
+
+{% endblock content %}
