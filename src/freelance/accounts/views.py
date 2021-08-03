@@ -18,6 +18,7 @@ def register_acc(request):
         form = CreateUserForm(request.POST)
         if form.is_valid:
             form.save()
+            
     
     context = {'form' : form}
     return render(request, 'register.html', context)

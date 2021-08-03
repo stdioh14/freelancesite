@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from accounts.views import register_acc, login, logout
 from django.urls import path
-from task.views import home_view, add_problem
+from task.views import *
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -24,8 +24,9 @@ urlpatterns = [
     path('login/', login, name= 'login'),
     path('logout/', logout, name= 'logout'),
     path('', home_view, name= 'home'),
-    path('home', home_view, name= 'home'),
-    path('add-problem', add_problem, name= 'add-problem'),
+    path('home/', home_view, name= 'home'),
+    path('add-problem/', add_problem, name= 'add-problem'),
+    path('my-application/', application_view, name= 'my_apps'),
 
 ]
 

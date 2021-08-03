@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+{% for application in my_apps %}
+<li style="margin-bottom: 20px;margin-left: 40px;">
+   {{ application.problem | safe}}
+   <p>Accepted: {{ application.accepted }}</p>
+</li>
+{% endfor %}
+{% endblock content %}

@@ -1,8 +1,8 @@
-from task.models import Language
+from task.models import *
 import task
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
-from task.models import Language
+from task.models import *
 from django.contrib.auth import authenticate
 from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as auth_logout
@@ -14,35 +14,50 @@ from .forms import CreateProblemForm
 # Create your views here.
 def home_view(request, *args, **kwargs):
     if(request.user.is_authenticated):
-        return render(request, "home.html")
-    
-    if request.method == "POST":
-        username = request.POST.get('username')
-        password = request.POST.get('password')
+        if request.method == 'POST':
+            user = request.user.username
+            problem = request.POST.get('problem')
 
-        user = authenticate(request, username=username, password=password)
-
-        if user is not None:
-
-            auth_login(request, user)
+            cnt = Application.objects.all().filter(problem_id__exact= problem).filter(user_name__exact = user).count()
+            
+            if cnt == 0:
+                Application.objects.create(problem_id=problem, user_name = user)
+                messages.warning(request, 'You successfully applied')
+            else:
+                messages.warning(request, 'You already applied')
             return redirect('home')
-        else:
-            messages.info(request, 'User or password is incorrect')
+        problems = Problem.objects.all()
+        return render(request, "home.html", {'problems': problems})
+    return redirect('login')
     
-    context = {}
-    
-    return render(request, 'login.html', context)
 
 def add_problem(request):
-    form = CreateProblemForm()
+    if(request.user.is_authenticated):
+        form = CreateProblemForm()
+        user = request.user.username
 
-    if request.method == 'POST':
-        form = CreateProblemForm(request.POST or None)
-        if form.is_valid():
-            form.cleaned_data['user'] = request.user.username
-            print(form.cleaned_data)
-        
-        
+        if request.method == 'POST':
+            form = CreateProblemForm(request.POST or None)
+            if form.is_valid():
+                form.cleaned_data['user'] = user
+                problem = Problem(title = form.cleaned_data['title'], description = form.cleaned_data['description'],
+                                    language = form.cleaned_data['language'], user_name = form.cleaned_data['user'])
+                problem.save()
+                return redirect('home')
     
-    context = {'form' : form}
-    return render(request, 'add-problem.html', context)
+        context = {'form' : form}
+        return render(request, 'add-problem.html', context)
+    return redirect('login')
+
+
+def application_view(request):
+    if(request.user.is_authenticated):
+        user = request.user.username
+        query = Application.objects.all().filter(user_name__exact= user)
+        print(query)
+        context = {
+            'my_apps': query
+        }
+        return render(request, 'my_application.html', context)
+    return redirect('login')
+
