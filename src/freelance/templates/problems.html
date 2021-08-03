@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+{% for problem in problems %}
+<li style="margin-bottom: 20px;margin-left: 40px;">
+   <p>{{problem.title}}</p>
+   <p>{{problem.description}}</p>
+   <p>Go to applications
+    <a href="{% url 'task:problem' problem.id %}">
+        here
+    </a> 
+</p>
+</li>
+{% endfor %}
+{% endblock content %}

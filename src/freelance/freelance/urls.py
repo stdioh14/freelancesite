@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from accounts.views import register_acc, login, logout
-from django.urls import path
+from django.urls import path, include
 from task.views import *
 
 urlpatterns = [
@@ -23,10 +23,6 @@ urlpatterns = [
     path('register/', register_acc, name= 'register'),
     path('login/', login, name= 'login'),
     path('logout/', logout, name= 'logout'),
-    path('', home_view, name= 'home'),
-    path('home/', home_view, name= 'home'),
-    path('add-problem/', add_problem, name= 'add-problem'),
-    path('my-application/', application_view, name= 'my_apps'),
-
+    path('home/', include('task.urls'))
 ]
 

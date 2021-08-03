@@ -2,10 +2,27 @@
 
 {% block content %}
     <p>Add a problem 
-        <a href="{% url 'add-problem' %}">
+        <a href="{% url 'task:add-problem' %}">
             here
         </a> 
     </p>
+    <p>Logout
+      <a href="{% url 'logout' %}">
+          here
+      </a> 
+   </p>
+   <p>Your problems
+      <a href="{% url 'task:problems' %}">
+          here
+      </a> 
+   </p>
+   <p>Your applications
+      <a href="{% url 'task:myapplications' %}">
+          here
+      </a> 
+   </p>
+
+
     <h4 class="messages">
       {% for message in messages %}
       <li  {% if message.tags %} class=" {{ message.tags }} " {% endif %}> {{ message }} </li>
@@ -14,17 +31,19 @@
    
     <ul>
         {% for problem in problems %}
-           <li style="margin-bottom: 20px;">
-              <h3>{{ problem.title }}</h3>
-              <h4>Language: {{ problem.language.name }}</h4>
-              <p>Description: {{ problem.description }}</p>
-            
-              <form method="post" action="">
-                 {% csrf_token %}
-                 <input type="hidden" name="problem" value="{{problem.id}}">
-                 <input type="submit" value="Apply Here" />
-              </form>
-           </li>
+            {% if not problem.hidden %}
+               <li style="margin-bottom: 20px;">
+                  <h3>{{ problem.title }}</h3>
+                  <h4>Language: {{ problem.language.name }}</h4>
+                  <p>Description: {{ problem.description }}</p>
+                  
+                  <form method="post" action="">
+                     {% csrf_token %}
+                     <input type="hidden" name="problem" value="{{problem.id}}">
+                     <input type="submit" value="Apply Here" />
+                  </form>
+               </li>
+            {% endif %}
         {% endfor %}
      </ul>
 {% endblock content %}

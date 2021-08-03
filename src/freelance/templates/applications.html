@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+
+
+<p>{{problem.title}}</p>
+<p>{{problem.description}}</p>
+
+{% for app in applications %}
+<li style="margin-bottom: 20px;margin-left: 40px;">
+   <p>{{app.user_name}}</p>
+   <a href="{% url 'task:user' app.user_name %}">
+        here
+    </a> 
+    <form method="POST" action="">
+        {% csrf_token %}
+        <input type="hidden" name= 'appid' value= '{{app.id}}'>
+        <input type="hidden" name= 'probid' value= '{{problem.id}}'>
+        <input type="hidden" name= 'user' value= '{{app.user_name}}'>
+        <button>Accept</button>
+    </form>
+
+</p>
+</li>
+{% endfor %}
+
+
+{% endblock content %}

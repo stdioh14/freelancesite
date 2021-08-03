@@ -18,6 +18,7 @@ def register_acc(request):
         form = CreateUserForm(request.POST)
         if form.is_valid:
             form.save()
+            return redirect('login')
             
     
     context = {'form' : form}
@@ -34,7 +35,7 @@ def login(request):
         if user is not None:
 
             auth_login(request, user)
-            return redirect('home')
+            return redirect('/home/')
         else:
             messages.info(request, 'User or password is incorrect')
     

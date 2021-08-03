@@ -17,6 +17,7 @@ class Problem(models.Model):
     description = models.CharField(max_length=300, null=False)
     user_name = models.CharField(max_length=30, null=False, default="")
     language = models.ForeignKey(Language, on_delete=CASCADE)
+    hidden = models.BooleanField(default=False)
 
 class Application(models.Model):
     problem = models.ForeignKey(Problem, on_delete=CASCADE)
