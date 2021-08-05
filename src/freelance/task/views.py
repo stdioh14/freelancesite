@@ -54,7 +54,6 @@ def application_view(request):
     if(request.user.is_authenticated):
         user = request.user.username
         query = Application.objects.all().filter(user_name__exact= user)
-        print(query)
         context = {
             'my_apps': query
         }
@@ -80,12 +79,8 @@ def problem_view_single(request, id):
             probid = request.POST.get('probid')
 
             Application.objects.all().filter(id=appid).update(accepted=True)
-            Problem.objects.all().filter(id=probid).update(hidden=True)
-
-
-
-
-            
+            Problem.objects.all().filter(id=probid).update(hidden=True, available=False)
+            return redirect('/home/')
 
         user = request.user.username
         problem = Problem.objects.all().filter(id__exact = id)
@@ -104,7 +99,6 @@ def user_view(request, user):
     nr_entries = query.count()
     nr_accepted = query.filter(accepted__exact=True).count()
 
-    print("---------->" , nr_entries, nr_accepted)
     context = {
         'nr_entries': nr_entries,
         'nr_accepted': nr_accepted,

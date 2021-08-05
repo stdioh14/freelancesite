@@ -13,7 +13,7 @@
    <div class="row">
        {% for app in my_apps %}
            <div style="margin-bottom: 20px;" class="col-6">
-               <div class="card w-100">
+               <div class="card w-100{%if app.problem.available%} bg-light mb-3{%elif app.accepted%} bg-success mb-3{%else%} bg-danger mb-3{%endif%}">
                    <div class="card-body">
                        <h5 class="card-title text-center">{{ app.user_name }}</h5>
                        <br>
