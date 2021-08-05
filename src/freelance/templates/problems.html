@@ -6,6 +6,35 @@
 
 {% include 'navbar.html' %}
 
+<nav aria-label="Page navigation example">
+    <ul class="pagination">
+      <li class="page-item">
+          {% if problems.has_previous %}
+        <a class="page-link" href="{% url 'task:problems' %}?page={{problems.previous_page_number}}" aria-label="Previous">
+          <span aria-hidden="true">&laquo;</span>
+          <span class="sr-only">Previous</span>
+        </a>
+          {% endif %}
+      </li>
+      {% for i in problems.paginator.page_range %}
+      {% ifequal i problems.number %}
+        <li class="page-item active">
+            <a class="page-link" href="{% url 'task:problems' %}?page={{forloop.counter}}">{{forloop.counter}}<span class="sr-only">(current)</span></a>
+        </li>
+        {% else %}
+        <li class="page-item"><a class="page-link" href="{% url 'task:problems' %}?page={{forloop.counter}}">{{forloop.counter}}</a></li>
+        {% endifequal %}
+      {%endfor%}
+      <li class="page-item">
+        {% if problems.has_next %}
+        <a class="page-link" href="{% url 'task:problems' %}?page={{problems.next_page_number}}" aria-label="Next">
+          <span aria-hidden="true">&raquo;</span>
+          <span class="sr-only">Next</span>
+        </a>
+        {% endif %}
+      </li>
+    </ul>
+  </nav>
 
 
 <div class="container">

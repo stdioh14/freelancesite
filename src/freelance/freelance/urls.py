@@ -15,14 +15,20 @@ Including another URLconf
 """
 from django.contrib import admin
 from accounts.views import register_acc, login, logout
-from django.urls import path, include
+from django.urls import path, include, re_path
 from task.views import *
+
+def base_view(request):
+    return render(request, 'not_found.html')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('register/', register_acc, name= 'register'),
     path('login/', login, name= 'login'),
     path('logout/', logout, name= 'logout'),
-    path('home/', include('task.urls'))
+    path('home/', include('task.urls')),
+    re_path(r'^', base_view, name='back_home')
 ]
+
+
 

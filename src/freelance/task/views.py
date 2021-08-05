@@ -1,4 +1,5 @@
 from django.core.files.base import ContentFile
+from django.core.paginator import EmptyPage, Paginator
 from django.db.models import query
 from django.utils import tree
 from task.models import *
@@ -8,6 +9,8 @@ from task.models import *
 from django.contrib import messages
 from .forms import CreateProblemForm
 from django.db.models import Q
+from django.contrib.auth.models import User
+
 
 
 
@@ -26,8 +29,17 @@ def home_view(request, *args, **kwargs):
             else:
                 messages.warning(request, 'You already applied')
             return redirect('/home/')
-        problems = Problem.objects.all()
-        return render(request, "home.html", {'problems': problems})
+        problems = Problem.objects.all().filter(hidden=False)
+        p = Paginator(problems, 6)
+
+        page_num = request.GET.get('page', 1)
+
+        try:
+            page = p.page(page_num)
+        except EmptyPage:
+            page = p.page(1)
+        
+        return render(request, "home.html", {'problems': page})
     return redirect('login')
     
 
@@ -54,8 +66,16 @@ def application_view(request):
     if(request.user.is_authenticated):
         user = request.user.username
         query = Application.objects.all().filter(user_name__exact= user)
+        p = Paginator(query, 6)
+
+        page_num = request.GET.get('page', 1)
+
+        try:
+            page = p.page(page_num)
+        except EmptyPage:
+            page = p.page(1)
         context = {
-            'my_apps': query
+            'my_apps': page
         }
         return render(request, 'my_application.html', context)
     return redirect('login')
@@ -64,9 +84,17 @@ def application_view(request):
 def problem_view(request):
     if(request.user.is_authenticated):
         user = request.user.username
-        query = Problem.objects.all().filter(user_name__exact= user)
+        query = Problem.objects.all().filter(user_name__exact= user, hidden=False)
+        p = Paginator(query, 6)
+
+        page_num = request.GET.get('page', 1)
+
+        try:
+            page = p.page(page_num)
+        except EmptyPage:
+            page = p.page(1)
         context = {
-            'problems': query
+            'problems': page
         }
         return render(request, 'problems.html', context)
     return redirect('login')
@@ -99,10 +127,13 @@ def user_view(request, user):
     nr_entries = query.count()
     nr_accepted = query.filter(accepted__exact=True).count()
 
+    email = User.objects.all().filter(username=user).first().email
+
     context = {
         'nr_entries': nr_entries,
         'nr_accepted': nr_accepted,
-        'user': user
+        'user_name': user,
+        'email': email
     }
 
     return render(request, 'user.html', context)

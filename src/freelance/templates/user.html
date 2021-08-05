@@ -1,9 +1,29 @@
-{% extends "base.html" %}
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.css" rel="stylesheet" id="bootstrap-css">
 
+{% extends "base.html" %}
 
 {% block content %}
 
-<p>The user {{user}} has applied for {{nr_entries}} problems</p>
-<p>{{nr_accepted}} were successful</p>
+{% include 'navbar.html' %}
+
+
+<div class="container">
+    <div class="row">
+        <div style="margin-bottom: 20px;" class="col-12">
+            <div class="card w-100">
+                <div class="card-body">
+                    <h5 class="card-title text-center">{{ user_name }}</h5>
+                    <h5 class="card-title text-center">Contact: {{ email }}</h5>
+                    <br>
+                    <p class="card-subtitle mb-2 text-center">Experience on our site:</p>
+                    <h6 class="card-text text-center">{{user_name}} has applied for {{nr_entries}} problems</h6>
+                    <h6 class="card-text text-center">{{nr_accepted}} were successful</h6>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 
 {% endblock content %}
