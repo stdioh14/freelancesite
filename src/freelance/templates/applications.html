@@ -1,29 +1,66 @@
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.css" rel="stylesheet" id="bootstrap-css">
+
+
 {% extends "base.html" %}
+
+
 
 
 {% block content %}
 
+{% include 'navbar.html' %}
 
-<p>{{problem.title}}</p>
-<p>{{problem.description}}</p>
+<div class="container">
+    <div class="row">
 
-{% for app in applications %}
-<li style="margin-bottom: 20px;margin-left: 40px;">
-   <p>{{app.user_name}}</p>
-   <a href="{% url 'task:user' app.user_name %}">
-        here
-    </a> 
-    <form method="POST" action="">
-        {% csrf_token %}
-        <input type="hidden" name= 'appid' value= '{{app.id}}'>
-        <input type="hidden" name= 'probid' value= '{{problem.id}}'>
-        <input type="hidden" name= 'user' value= '{{app.user_name}}'>
-        <button>Accept</button>
-    </form>
+        <div style="margin-bottom: 20px;" class="col-12">
+            <div class="card w-100">
+                <div class="card-body">
+                    <h5 class="card-title text-center">{{ problem.title }}</h5>
+                    <h6 class="card-subtitle mb-2 text-muted text-center">Language: {{ problem.language.name }}</h6>
+                    <br>
+                    <h6 class="card-subtitle mb-2 text-center">Description:</h6>
+                    <p class="card-text text-center">{{ problem.description }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-</p>
-</li>
-{% endfor %}
+
+
+
+
+
+<div class="container">
+    <div class="row">
+        {% for app in applications %}
+            <div style="margin-bottom: 20px;" class="col-6">
+                <div class="card w-100">
+                    <div class="card-body">
+                        <h5 class="card-title text-center">{{ app.user_name }}</h5>
+                        <br>
+                        <p class="card-subtitle mb-2 text-center">
+                            <a href="{% url 'task:user' app.user_name %}" class="card-subtitle mb-2 text-center">
+                            Details here
+                            </a>
+                        </p> 
+                        <form method="post" action="">
+                            {% csrf_token %}
+                            <form method="POST" action="">
+                                {% csrf_token %}
+                                <input type="hidden" name= 'appid' value= '{{app.id}}'>
+                                <input type="hidden" name= 'probid' value= '{{problem.id}}'>
+                                <input type="hidden" name= 'user' value= '{{app.user_name}}'>
+                                <button type="submit" class="btn btn-primary col-12">Accept</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
 
 
 {% endblock content %}

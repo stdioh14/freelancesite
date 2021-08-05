@@ -1,49 +1,43 @@
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.css" rel="stylesheet" id="bootstrap-css">
+
 {% extends "base.html" %}
 
 {% block content %}
-    <p>Add a problem 
-        <a href="{% url 'task:add-problem' %}">
-            here
-        </a> 
-    </p>
-    <p>Logout
-      <a href="{% url 'logout' %}">
-          here
-      </a> 
-   </p>
-   <p>Your problems
-      <a href="{% url 'task:problems' %}">
-          here
-      </a> 
-   </p>
-   <p>Your applications
-      <a href="{% url 'task:myapplications' %}">
-          here
-      </a> 
-   </p>
+
+{% include 'navbar.html' %}
 
 
-    <h4 class="messages">
-      {% for message in messages %}
-      <li  {% if message.tags %} class=" {{ message.tags }} " {% endif %}> {{ message }} </li>
-      {% endfor %}
-     </h4>
-   
-    <ul>
+<h4 class="messages">
+    {% for message in messages %}
+    <li {% if message.tags %} class=" {{ message.tags }} " {% endif %}> {{ message }} </li>
+    {% endfor %}
+</h4>
+
+
+<div class="container">
+    <div class="row">
         {% for problem in problems %}
             {% if not problem.hidden %}
-               <li style="margin-bottom: 20px;">
-                  <h3>{{ problem.title }}</h3>
-                  <h4>Language: {{ problem.language.name }}</h4>
-                  <p>Description: {{ problem.description }}</p>
-                  
-                  <form method="post" action="">
-                     {% csrf_token %}
-                     <input type="hidden" name="problem" value="{{problem.id}}">
-                     <input type="submit" value="Apply Here" />
-                  </form>
-               </li>
+                <div style="margin-bottom: 20px;" class="col-6">
+                    <div class="card w-100">
+                        <div class="card-body">
+                            <h5 class="card-title text-center">{{ problem.title }}</h5>
+                            <h6 class="card-subtitle mb-2 text-muted text-center">Language: {{ problem.language.name }}</h6>
+                            <br>
+                            <h6 class="card-subtitle mb-2 text-center">Description:</h6>
+                            <p class="card-text text-center">{{ problem.description }}</p>
+                            <form method="post" action="">
+                                {% csrf_token %}
+                                <input type="hidden" name="problem" value="{{problem.id}}">
+                                <button type="submit" class="btn btn-primary col-12">Apply</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
             {% endif %}
         {% endfor %}
-     </ul>
+    </div>
+</div>
+
+
 {% endblock content %}
